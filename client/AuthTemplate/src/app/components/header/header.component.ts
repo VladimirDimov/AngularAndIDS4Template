@@ -10,10 +10,7 @@ import { AuthenticationService } from 'src/app/common/authentication.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(
-    private oauthService: OAuthService,
-    private authenticationService: AuthenticationService
-  ) {}
+  constructor(private oauthService: OAuthService) {}
 
   ngOnInit(): void {
     this.oauthService.configure(authCodeFlowConfig);
