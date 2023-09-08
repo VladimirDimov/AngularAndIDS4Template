@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from '../../common/auth-config.service';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { AuthenticationService } from 'src/app/common/authentication.service';
 
 @Component({
@@ -10,20 +7,17 @@ import { AuthenticationService } from 'src/app/common/authentication.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(private oauthService: OAuthService) {}
+  constructor(private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.oauthService.configure(authCodeFlowConfig);
-    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.authenticationService.InitAuthentication();
   }
 
   login() {
-    this.oauthService.initCodeFlow();
+    this.authenticationService.Login();
   }
 
   logout() {
-    this.oauthService.logOut();
-    this.oauthService.revokeTokenAndLogout();
+    this.authenticationService.logout();
   }
 }
