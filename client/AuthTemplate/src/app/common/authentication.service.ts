@@ -1,20 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth-config.service';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import { Observable, Subject, from, of } from 'rxjs';
 
 @Injectable()
 export class AuthenticationService {
+  private _isAuthenticated = new Subject<boolean>();
+
   constructor(private oauthService: OAuthService) {}
 
-  get isAuthenticated(): boolean {
-    return !!this.oauthService.getAccessToken();
+  public get isAuthenticated$(): Subject<boolean> {
+    return this._isAuthenticated;
   }
 
   public InitAuthentication() {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then((x) => {
+      this._isAuthenticated.next(!!this.oauthService.getAccessToken());
+    });
   }
 
   public Login() {

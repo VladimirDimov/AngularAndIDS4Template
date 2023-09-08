@@ -7,6 +7,10 @@ import { AuthenticationService } from 'src/app/common/authentication.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  check = {
+    isAuthenticated: this.authenticationService.isAuthenticated$,
+  };
+
   constructor(private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
