@@ -17,11 +17,21 @@ namespace IdentityServer
                 new IdentityResources.Profile(),
             };
 
+        public static IEnumerable<ApiResource> ApiResources =>
+        new ApiResource[]
+        {
+            new ApiResource("m2m.client", "m2m.client")
+            {
+                Scopes = { "m2m.client.read", "m2m.client.write", "m2m.client" }
+            }
+        };
+
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
                 new ApiScope("scope1"),
                 new ApiScope("scope2"),
+                new ApiScope("m2m.client"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -31,12 +41,12 @@ namespace IdentityServer
                 new Client
                 {
                     ClientId = "m2m.client",
-                    ClientName = "Client Credentials Client",
+                    ClientName = "m2m.client",
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A") },
 
-                    AllowedScopes = { "scope1" }
+                    AllowedScopes = { "scope1" },
                 },
 
                 // interactive client using code flow + pkce
@@ -52,7 +62,7 @@ namespace IdentityServer
                     PostLogoutRedirectUris = { "http://localhost:4200" },
                     RequirePkce = true,
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile" }
+                    AllowedScopes = { "openid", "profile", "m2m.client" },
                 },
             };
     }
