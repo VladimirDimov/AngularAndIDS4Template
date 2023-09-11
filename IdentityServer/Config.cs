@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 using static IdentityServer4.Models.IdentityResources;
@@ -22,7 +24,7 @@ namespace IdentityServer
         {
             new ApiResource("m2m.client", "m2m.client")
             {
-                Scopes = { "m2m.client.read", "m2m.client.write", "m2m.client" }
+                Scopes = { "m2m.client.read", "m2m.client.write", "m2m.client", JwtClaimTypes.Role, JwtClaimTypes.Name }
             }
         };
 
@@ -32,6 +34,7 @@ namespace IdentityServer
                 new ApiScope("scope1"),
                 new ApiScope("scope2"),
                 new ApiScope("m2m.client"),
+                new ApiScope("role"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -62,7 +65,7 @@ namespace IdentityServer
                     PostLogoutRedirectUris = { "http://localhost:4200" },
                     RequirePkce = true,
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "m2m.client" },
+                    AllowedScopes = { "openid", "profile", "m2m.client", JwtClaimTypes.Role },
                 },
             };
     }
