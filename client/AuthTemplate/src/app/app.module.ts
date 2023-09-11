@@ -9,9 +9,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { AuthenticationService } from './common/authentication.service';
 import {
+  IfIsInRoleDirective as IfIsInRoleDirective,
   IfLoggedInDirective,
   IfLoggedOutDirective,
 } from './directives/auth.directives';
+import { AuthCache } from './common/auth.cache';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import {
     HeaderComponent,
     IfLoggedInDirective,
     IfLoggedOutDirective,
+    IfIsInRoleDirective,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import {
     HttpClientModule,
     OAuthModule.forRoot(),
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, AuthCache],
   bootstrap: [AppComponent],
 })
 export class AppModule {

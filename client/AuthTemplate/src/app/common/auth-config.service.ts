@@ -24,7 +24,7 @@ export const authCodeFlowConfig: AuthConfig = {
   // The first four are defined by OIDC.
   // Important: Request offline_access to get a refresh token
   // The api scope is a usecase specific one
-  scope: 'openid profile offline_access m2m.client role',
+  scope: 'openid profile offline_access m2m.client',
 
   showDebugInformation: true,
   tokenEndpoint: 'https://localhost:5001/connect/token',

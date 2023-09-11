@@ -15,6 +15,7 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.authenticationService.InitAuthentication();
+    this.authenticationService.isInRole('role1');
   }
 
   login() {
