@@ -27,7 +27,9 @@ export class AuthenticationService {
   }
 
   public logout() {
-    this.oauthService.logOut();
-    this.oauthService.revokeTokenAndLogout();
+    this.oauthService.logOut({
+      test: 123,
+    });
+    // this.oauthService.revokeTokenAndLogout();
   }
 }

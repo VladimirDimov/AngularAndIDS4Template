@@ -16,6 +16,34 @@ export class IfLoggedInDirective implements OnDestroy {
       .pipe(
         takeUntil(this.onDestroy$),
         tap((isAuthentiated) => {
+          if (!isAuthentiated) {
+            this.el.nativeElement.style.display = 'none';
+          } else {
+            this.el.nativeElement.style.display = null;
+          }
+        })
+      )
+      .subscribe();
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next(0);
+  }
+}
+
+@Directive({
+  selector: '[ifLoggedOut]',
+})
+export class IfLoggedOutDirective implements OnDestroy {
+  private onDestroy$ = new Subject();
+
+  constructor(
+    private el: ElementRef,
+    private authenticationHelper: AuthenticationService
+  ) {
+    this.authenticationHelper._isAuthenticated
+      .pipe(
+        takeUntil(this.onDestroy$),
+        tap((isAuthentiated) => {
           if (isAuthentiated) {
             this.el.nativeElement.style.display = 'none';
           } else {
@@ -25,6 +53,7 @@ export class IfLoggedInDirective implements OnDestroy {
       )
       .subscribe();
   }
+
   ngOnDestroy(): void {
     this.onDestroy$.next(0);
   }

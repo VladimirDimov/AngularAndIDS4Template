@@ -8,10 +8,18 @@ import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { AuthenticationService } from './common/authentication.service';
-import { IfLoggedInDirective } from './directives/auth.directives';
+import {
+  IfLoggedInDirective,
+  IfLoggedOutDirective,
+} from './directives/auth.directives';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, IfLoggedInDirective],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    IfLoggedInDirective,
+    IfLoggedOutDirective,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
