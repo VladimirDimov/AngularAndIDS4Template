@@ -6,11 +6,11 @@ import { Observable, Subject, from, of } from 'rxjs';
 
 @Injectable()
 export class AuthenticationService {
-  private _isAuthenticated = new Subject<boolean>();
+  public _isAuthenticated = new Subject<boolean>();
 
   constructor(private oauthService: OAuthService) {}
 
-  public get isAuthenticated$(): Subject<boolean> {
+  public get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated;
   }
 

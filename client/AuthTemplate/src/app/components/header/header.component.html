@@ -60,7 +60,9 @@
             Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#" (click)="login()">Login</a>
+            <a ifLoggedIn class="dropdown-item" href="#" (click)="login()"
+              >Login</a
+            >
             <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>

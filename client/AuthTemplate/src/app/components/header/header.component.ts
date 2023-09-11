@@ -11,7 +11,7 @@ export class HeaderComponent {
     isAuthenticated: this.authenticationService.isAuthenticated$,
   };
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(public authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.authenticationService.InitAuthentication();
