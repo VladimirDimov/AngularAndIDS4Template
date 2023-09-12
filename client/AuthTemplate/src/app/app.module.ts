@@ -4,9 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthModule } from 'angular-oauth2-oidc';
 import { HeaderComponent } from './components/header/header.component';
-import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { AuthenticationService } from './common/authentication.service';
 import {
   IfIsInRoleDirective as IfIsInRoleDirective,
@@ -15,10 +14,19 @@ import {
 } from './directives/auth.directives';
 import { AuthCache } from './common/auth.cache';
 import { ProtectedPageComponent } from './components/protected-page/protected-page.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { authGuard } from './common/guards/auth.guard';
 
-const routes = [];
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  {
+    path: 'protected-page',
+    component: ProtectedPageComponent,
+    canActivate: [authGuard],
+  },
+];
 
 @NgModule({
   declarations: [
@@ -34,11 +42,7 @@ const routes = [];
     AppRoutingModule,
     HttpClientModule,
     OAuthModule.forRoot(),
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'home', component: HomeComponent },
-      { path: 'protected-page', component: ProtectedPageComponent },
-    ]),
+    RouterModule.forRoot(routes),
   ],
   providers: [AuthenticationService, AuthCache],
   bootstrap: [AppComponent],

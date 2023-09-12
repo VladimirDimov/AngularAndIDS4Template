@@ -18,11 +18,15 @@ export class AuthenticationService {
     return this._isAuthenticated;
   }
 
+  public get isAuthenticated(): boolean {
+    return !!this.oauthService.getAccessToken();
+  }
+
   public InitAuthentication() {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then((x) => {
-      this._isAuthenticated.next(!!this.oauthService.getAccessToken());
+      this._isAuthenticated.next(this.isAuthenticated);
     });
   }
 
