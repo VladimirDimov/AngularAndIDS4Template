@@ -62,10 +62,13 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Account
+            <ng-container *ngIf="!name">Account</ng-container>
+            <ng-container *ngIf="name">Hello {{ name }}</ng-container>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#" (click)="login()">Login</a>
+            <a class="dropdown-item" ifLoggedOut href="#" (click)="login()"
+              >Login</a
+            >
             <a class="dropdown-item" ifLoggedIn href="#" (click)="logout()"
               >Logout</a
             >

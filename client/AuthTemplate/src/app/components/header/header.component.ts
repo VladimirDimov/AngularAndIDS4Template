@@ -11,11 +11,14 @@ export class HeaderComponent {
     isAuthenticated: this.authenticationService.isAuthenticated$,
   };
 
+  name: string | null = null;
+
   constructor(public authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.authenticationService.InitAuthentication();
     this.authenticationService.isInRole('role1');
+    this.name = this.authenticationService.getFullName();
   }
 
   login() {

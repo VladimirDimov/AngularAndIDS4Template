@@ -32,6 +32,7 @@ export class AuthenticationService {
 
   public Login() {
     this.oauthService.initCodeFlow();
+    this._isAuthenticated.next(this.isAuthenticated);
   }
 
   public logout() {
@@ -64,5 +65,11 @@ export class AuthenticationService {
     }
 
     return true;
+  }
+
+  public getFullName() {
+    if (!this.isAuthenticated) return null;
+
+    return this.authCache.claims.name;
   }
 }

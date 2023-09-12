@@ -19,4 +19,5 @@ export class AuthCache {
 
 export interface Claims {
   role: string[];
+  name: string;
 }
