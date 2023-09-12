@@ -17,6 +17,7 @@ import { ProtectedPageComponent } from './components/protected-page/protected-pa
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './common/guards/auth.guard';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
     component: ProtectedPageComponent,
     canActivate: [authGuard],
   },
+  { path: 'forbidden', component: ForbiddenComponent },
 ];
 
 @NgModule({
@@ -36,6 +38,7 @@ const routes: Routes = [
     IfLoggedOutDirective,
     IfIsInRoleDirective,
     ProtectedPageComponent,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,
