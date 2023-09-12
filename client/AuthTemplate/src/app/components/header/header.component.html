@@ -62,8 +62,10 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <ng-container *ngIf="!name">Account</ng-container>
-            <ng-container *ngIf="name">Hello {{ name }}</ng-container>
+            <ng-container *ngIf="!(name$ | async)">Account</ng-container>
+            <ng-container *ngIf="name$ | async"
+              >Hello {{ name$ | async }}</ng-container
+            >
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" ifLoggedOut href="#" (click)="login()"
@@ -80,4 +82,5 @@
   </div>
 </nav>
 
-{{ check.isAuthenticated | async | json }}
+<p>{{ check.isAuthenticated | async | json }}</p>
+<p>{{ (name$ | async) || "no name" }}</p>

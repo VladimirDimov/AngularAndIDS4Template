@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthenticationService } from './common/authentication.service';
@@ -20,6 +20,8 @@ import { authGuard } from './common/guards/auth.guard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { ProtectedByRoleComponent } from './components/protected-by-role/protected-by-role.component';
 import { roleGuard } from './common/guards/role.guard';
+import { CookieModule, CookieService } from 'ngx-cookie';
+import { AuthInterceptor } from './common/interceptors/auth.interceptor';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -54,8 +56,14 @@ const routes: Routes = [
     HttpClientModule,
     OAuthModule.forRoot(),
     RouterModule.forRoot(routes),
+    CookieModule.withOptions(),
   ],
-  providers: [AuthenticationService, AuthCache],
+  providers: [
+    AuthenticationService,
+    AuthCache,
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

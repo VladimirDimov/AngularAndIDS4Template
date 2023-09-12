@@ -2,7 +2,7 @@ import { Injectable, Input } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth-config.service';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-import { Observable, Subject, from, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, from, map, of, tap } from 'rxjs';
 import { AuthCache } from './auth.cache';
 
 @Injectable()
@@ -28,11 +28,13 @@ export class AuthenticationService {
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then((x) => {
       this._isAuthenticated.next(this.isAuthenticated);
     });
+    this.updateClaimsCache();
   }
 
   public Login() {
     this.oauthService.initCodeFlow();
     this._isAuthenticated.next(this.isAuthenticated);
+    this.updateClaimsCache();
   }
 
   public logout() {
@@ -42,21 +44,7 @@ export class AuthenticationService {
   }
 
   public isInRole(role: string): boolean {
-    if (!this.authCache.claims) {
-      const claims = this.oauthService.getAccessToken();
-
-      if (!claims) return false;
-
-      const middlePart = claims.substring(
-        claims.indexOf('.') + 1,
-        claims.lastIndexOf('.')
-      );
-      const decoded = atob(middlePart);
-      const claimsObj = JSON.parse(decoded);
-      this.authCache.updateCache(claimsObj);
-    }
-
-    return this.authCache.claims.role.indexOf(role) > -1;
+    return this.authCache.claims?.role?.indexOf(role) > -1;
   }
 
   public isInRoles(roles: string[]): boolean {
@@ -67,9 +55,25 @@ export class AuthenticationService {
     return true;
   }
 
-  public getFullName() {
-    if (!this.isAuthenticated) return null;
+  public getFullName(): Observable<string | null> {
+    return this.authCache.claims$.pipe(map((c) => c?.name || null));
+  }
 
-    return this.authCache.claims.name;
+  public updateAccessToken(accessToken: string) {
+    const middlePart = accessToken.substring(
+      accessToken.indexOf('.') + 1,
+      accessToken.lastIndexOf('.')
+    );
+    const decoded = atob(middlePart);
+    const claimsObj = JSON.parse(decoded);
+    this.authCache.updateCache(claimsObj);
+  }
+
+  private updateClaimsCache(): void {
+    const accessToken = this.oauthService.getAccessToken();
+
+    if (!accessToken) return;
+
+    this.updateAccessToken(accessToken);
   }
 }

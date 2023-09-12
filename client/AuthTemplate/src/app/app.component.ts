@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from './common/auth-config.service';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import { tap } from 'rxjs';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +8,11 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {}
+  constructor(private cookieService: CookieService) {}
+
+  ngOnInit(): void {
+    this.cookieService.get('');
+  }
 
   title = 'AuthTemplate';
 }

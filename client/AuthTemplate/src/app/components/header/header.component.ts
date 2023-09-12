@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/common/authentication.service';
 
 @Component({
@@ -11,14 +12,13 @@ export class HeaderComponent {
     isAuthenticated: this.authenticationService.isAuthenticated$,
   };
 
-  name: string | null = null;
+  name$: Observable<string | null> = this.authenticationService.getFullName();
 
   constructor(public authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.authenticationService.InitAuthentication();
     this.authenticationService.isInRole('role1');
-    this.name = this.authenticationService.getFullName();
   }
 
   login() {
