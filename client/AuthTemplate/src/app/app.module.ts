@@ -14,6 +14,11 @@ import {
   IfLoggedOutDirective,
 } from './directives/auth.directives';
 import { AuthCache } from './common/auth.cache';
+import { ProtectedPageComponent } from './components/protected-page/protected-page.component';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+
+const routes = [];
 
 @NgModule({
   declarations: [
@@ -22,12 +27,18 @@ import { AuthCache } from './common/auth.cache';
     IfLoggedInDirective,
     IfLoggedOutDirective,
     IfIsInRoleDirective,
+    ProtectedPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     OAuthModule.forRoot(),
+    RouterModule.forRoot([
+      { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
+      { path: 'protected-page', component: ProtectedPageComponent },
+    ]),
   ],
   providers: [AuthenticationService, AuthCache],
   bootstrap: [AppComponent],
