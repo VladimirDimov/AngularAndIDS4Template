@@ -57,4 +57,12 @@ export class AuthenticationService {
 
     return this.authCache.claims.role.indexOf(role) > -1;
   }
+
+  public isInRoles(roles: string[]): boolean {
+    for (const role of roles) {
+      if (!this.isInRole(role)) return false;
+    }
+
+    return true;
+  }
 }

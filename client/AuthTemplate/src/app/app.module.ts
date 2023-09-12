@@ -18,6 +18,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './common/guards/auth.guard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { ProtectedByRoleComponent } from './components/protected-by-role/protected-by-role.component';
+import { roleGuard } from './common/guards/role.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,6 +28,11 @@ const routes: Routes = [
     path: 'protected-page',
     component: ProtectedPageComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'protected-by-role-page',
+    component: ProtectedByRoleComponent,
+    canActivate: [roleGuard(['role1'])],
   },
   { path: 'forbidden', component: ForbiddenComponent },
 ];
@@ -39,6 +46,7 @@ const routes: Routes = [
     IfIsInRoleDirective,
     ProtectedPageComponent,
     ForbiddenComponent,
+    ProtectedByRoleComponent,
   ],
   imports: [
     BrowserModule,
