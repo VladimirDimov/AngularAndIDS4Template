@@ -22,6 +22,8 @@ import { ProtectedByRoleComponent } from './components/protected-by-role/protect
 import { roleGuard } from './common/guards/role.guard';
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { AuthInterceptor } from './common/interceptors/auth.interceptor';
+import { adminRoutes } from './admin/components/admin.module';
+import { AdminHomeAComponent } from './admin/components/admin-home/admin-home-a/admin-home-a.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,6 +37,13 @@ const routes: Routes = [
     path: 'protected-by-role-page',
     component: ProtectedByRoleComponent,
     canActivate: [roleGuard(['role1'])],
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/components/admin.module').then(
+        (module) => module.AdminModule
+      ),
   },
   { path: 'forbidden', component: ForbiddenComponent },
 ];
