@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy } from '@angular/core';
 import { AuthenticationService } from '../common/authentication.service';
 import { tap, takeUntil, Subject, switchMap } from 'rxjs';
 
@@ -65,6 +65,8 @@ export class IfLoggedOutDirective implements OnDestroy {
 export class IfIsInRoleDirective implements OnDestroy {
   private onDestroy$ = new Subject();
 
+  @Input() roles: string[] = [];
+
   constructor(
     private el: ElementRef,
     private authenticationHelper: AuthenticationService
@@ -73,7 +75,10 @@ export class IfIsInRoleDirective implements OnDestroy {
       .pipe(
         takeUntil(this.onDestroy$),
         tap((isAuthentiated) => {
-          if (!isAuthentiated || !this.authenticationHelper.isInRole('role1')) {
+          if (
+            !isAuthentiated ||
+            !this.authenticationHelper.isInRoles(this.roles)
+          ) {
             this.el.nativeElement.style.display = 'none';
           } else {
             this.el.nativeElement.style.display = null;
